@@ -3,6 +3,8 @@ package com.eazybytes.loans.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
@@ -10,7 +12,7 @@ import lombok.Data;
         name = "Loans",
         description = "Schema that holds Loans information"
 )
-public class LoansDTO {
+public class LoansDto {
 
     @Schema(
             description = "Mobile number for a user", example = "0792257222"
@@ -22,6 +24,7 @@ public class LoansDTO {
             description = "Loan number used for a specific loan", example = "11111"
     )
     @NotEmpty(message = "Loan number cannot be null or empty")
+    @Pattern(regexp="(^$|[0-9]{12})",message = "LoanNumber must be 12 digits")
     private String loanNumber;
 
     @Schema(
@@ -33,19 +36,19 @@ public class LoansDTO {
     @Schema(
             description = "This is the total amount of the loan", example = "10000"
     )
-    @NotEmpty(message = "Total loan cannot be null or empty")
+    @Positive(message = "Total loan amount should be greater than zero")
     private Integer totalLoan;
 
     @Schema(
             description = "This is the amount of loan that had been paid", example = "5000"
     )
-    @NotEmpty(message = "Amount paid cannot be null or empty")
-    private Integer amountPaid;
+    @PositiveOrZero(message = "Total loan amount paid should be equal or greater than zero")
+    private int amountPaid;
 
     @Schema(
             description = "This is the balance of loan", example = "5000"
     )
-    @NotEmpty(message = "Outstanding amount cannot be null or empty")
-    private Integer outstandingAmount;
+    @PositiveOrZero(message = "Total outstanding amount should be equal or greater than zero")
+    private int outstandingAmount;
 
 }
