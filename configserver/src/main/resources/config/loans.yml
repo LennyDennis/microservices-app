@@ -1,13 +1,8 @@
-spring:
-  config:
-    activate:
-      on-profile: "prod"
-
 build:
   version: "1.0"
 
 loan:
-  message: "Welcome to EazyBank prod loan related local APIs "
+  message: "Welcome to EazyBank loan related local APIs "
   contactDetails:
     name: "John Doe - Developer"
     email: "john@eazybank.com"
