@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: "https://github.com/LennyDennis/microservices-app.git"
+          uri: "https://github.com/LennyDennis/microservice-config.git"
           default-label: main
           timeout: 5
           clone-on-start: true
@@ -16,7 +16,8 @@ spring:
         #        native:
 #          search-locations: "file:///home//lenny//Documents//Personal//Microservices//microservices-app//config"
         #          search-locations: "classpath:/config"
-
+encrypt:
+  key: "975N3K2M13MBHT23SLOEP56C"
 
 server:
   port: 8071
