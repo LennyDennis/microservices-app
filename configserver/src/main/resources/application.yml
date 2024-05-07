@@ -13,9 +13,18 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
-        #        native:
-#          search-locations: "file:///home//lenny//Documents//Personal//Microservices//microservices-app//config"
-        #          search-locations: "classpath:/config"
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 encrypt:
   key: "975N3K2M13MBHT23SLOEP56C"
 
