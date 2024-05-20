@@ -2,13 +2,13 @@ services:
   redis:
     image: redis
     ports:
-      - "6379:6379"
+      - "6380:6380"
     healthcheck:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
       timeout: 10s
       retries: 10
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: network-deploy-service
 
   accounts:
@@ -30,7 +30,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "accounts"
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-eureka-config
 
   loans:
@@ -52,7 +52,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "loans"
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-eureka-config
 
   cards:
@@ -74,7 +74,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-eureka-config
 
   configserver:
@@ -89,7 +89,7 @@ services:
       retries: 10
       start_period: 10s
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-base-config
 
   eurekaserver:
@@ -104,7 +104,7 @@ services:
       retries: 10
       start_period: 10s
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-configserver-config
     depends_on:
       configserver:
@@ -118,7 +118,7 @@ services:
     ports:
       - "8072:8072"
     extends:
-      file: common-config.yml
+      file: ../default/common-config.yml
       service: microservice-eureka-config
     depends_on:
       accounts:
