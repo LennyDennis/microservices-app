@@ -37,8 +37,15 @@ management:
     tags:
       application: ${spring.application.name}
 
+
 encrypt:
   key: "975N3K2M13MBHT23SLOEP56C"
 
 server:
   port: 8071
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+
