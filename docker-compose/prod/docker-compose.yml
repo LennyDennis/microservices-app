@@ -1,4 +1,20 @@
 services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+      
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.1
     container_name: keycloak
@@ -227,8 +243,20 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
+  message:
+    image: "lennydennis/message:s13"
+    container_name: message-ms
+    depends_on:
+      rabbit:
+    condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   accounts:
-    image: "lennydennis/accounts:s12"
+    image: "lennydennis/accounts:s13"
     container_name: "accounts-ms"
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
@@ -241,15 +269,18 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+      rabbit:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       OTEL_SERVICE_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbit"
     extends:
       file: ../default/common-config.yml
       service: microservice-eureka-config
 
   loans:
-    image: "lennydennis/loans:s12"
+    image: "lennydennis/loans:s13"
     container_name: "loans-ms"
     healthcheck:
       test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1"
@@ -270,7 +301,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "lennydennis/cards:s12"
+    image: "lennydennis/cards:s13"
     container_name: "cards-ms"
     healthcheck:
       test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
@@ -291,7 +322,7 @@ services:
       service: microservice-eureka-config
 
   configserver:
-    image: "lennydennis/configserver:s12"
+    image: "lennydennis/configserver:s13"
     container_name: "configserver-ms"
     ports:
       - "8071:8071"
@@ -308,7 +339,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "lennydennis/eurekaserver:s12"
+    image: "lennydennis/eurekaserver:s13"
     container_name: "eurekaserver-ms"
     ports:
       - "8070:8070"
@@ -329,7 +360,7 @@ services:
       OTEL_SERVICE_NAME: "eurekaserver"
 
   gatewayserver:
-    image: "lennydennis/gatewayserver:s12"
+    image: "lennydennis/gatewayserver:s13"
     container_name: "gatewayserver-ms"
     ports:
       - "8072:8072"
