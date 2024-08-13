@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gatewayserver
-        image: lennydennis/gatewayserver:s14
+        image: lennydennis/gatewayserver:s12
         ports:
         - containerPort: 8072
         env:

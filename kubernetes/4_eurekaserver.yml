@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: eurekaserver
-        image: lennydennis/eurekaserver:s14
+        image: lennydennis/eurekaserver:s12
         ports:
         - containerPort: 8070
         env:

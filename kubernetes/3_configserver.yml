@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: configserver
-        image: lennydennis/configserver:s14
+        image: lennydennis/configserver:s12
         ports:
         - containerPort: 8071
 ---
